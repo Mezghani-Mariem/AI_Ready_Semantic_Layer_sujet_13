@@ -1,0 +1,201 @@
+/// Fact table with one row per imported reseller sales order line, containing dates, product and reseller links, quantities, sales amounts and costs.
+table FactSales
+	lineageTag: 456b964f-aa1c-4341-b6bb-22395ad63875
+
+	column SalesOrderNumber
+		dataType: string
+		isHidden
+		lineageTag: 861c27a0-4c79-47ad-b8b3-24631c46e7b1
+		summarizeBy: none
+		sourceColumn: SalesOrderNumber
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesOrderLineNumber
+		dataType: string
+		isHidden
+		lineageTag: 8628be01-75b0-4a02-952b-20e05272cba3
+		summarizeBy: none
+		sourceColumn: SalesOrderLineNumber
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Date on which a sales order was placed; use this date for order-based sales trends.
+	column OrderDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 05169832-3969-4633-b15b-cd987a7c47bf
+		summarizeBy: none
+		sourceColumn: OrderDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DueDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 8fdaf983-4012-4798-9496-cb8656dc122c
+		summarizeBy: none
+		sourceColumn: DueDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// Date when the sales order line was shipped; do not confuse with order date.
+	column ShipDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 4b94bc23-fa28-4599-806e-ac0c61d8c688
+		summarizeBy: none
+		sourceColumn: ShipDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ProductKey
+		dataType: string
+		isHidden
+		lineageTag: 56d96fbb-5bbf-4888-b5e1-fb0fdfb8ccbb
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ResellerKey
+		dataType: string
+		isHidden
+		lineageTag: fab3b0ca-d6d2-4677-9d8f-631755f2a39d
+		summarizeBy: none
+		sourceColumn: ResellerKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column PromotionKey
+		dataType: string
+		isHidden
+		lineageTag: a7b2c511-ae99-4dd6-a310-9bf5a3f569e3
+		summarizeBy: none
+		sourceColumn: PromotionKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EmployeeKey
+		dataType: string
+		isHidden
+		lineageTag: c81dfc0e-7bae-41e3-8157-b5cd25b5df7e
+		summarizeBy: none
+		sourceColumn: EmployeeKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesTerritoryKey
+		dataType: string
+		isHidden
+		lineageTag: 41e2b4f6-108a-4d2e-8302-8a64f419effd
+		summarizeBy: none
+		sourceColumn: SalesTerritoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Number of product units ordered on this sales line; use Total Quantity for aggregation.
+	column OrderQuantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 566a59cd-6fb5-477b-af47-214e175c130c
+		summarizeBy: sum
+		sourceColumn: OrderQuantity
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Unit selling price of the product on this sales line; do not sum this field to calculate revenue.
+	column UnitPrice
+		dataType: double
+		lineageTag: c438abe2-68a4-4a11-8294-421e10ea5b06
+		summarizeBy: sum
+		sourceColumn: UnitPrice
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Sales monetary amount on this order line; use the Total Sales measure for aggregation.
+	column SalesAmount
+		dataType: double
+		lineageTag: 48f74f19-1972-4775-922e-fa91c234a22e
+		summarizeBy: sum
+		sourceColumn: SalesAmount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Recorded product cost of this sales line, following DEV1 source cleaning; use Total Cost for aggregation.
+	column TotalProductCost
+		dataType: double
+		lineageTag: 77a9ac21-df2b-48cd-8e63-7ab48554c4b4
+		summarizeBy: sum
+		sourceColumn: TotalProductCost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition FactSales = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\RIMEH\Desktop\GI3S1\BI\FactSales"),
+				    #"Fichiers masqués filtrés1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Appeler une fonction personnalisée1" = Table.AddColumn(#"Fichiers masqués filtrés1", "Transformer le fichier (2)", each #"Transformer le fichier (2)"([Content])),
+				    #"Colonnes renommées1" = Table.RenameColumns(#"Appeler une fonction personnalisée1", {"Name", "Source.Name"}),
+				    #"Autres colonnes supprimées1" = Table.SelectColumns(#"Colonnes renommées1", {"Source.Name", "Transformer le fichier (2)"}),
+				    #"Colonne de tables développée1" = Table.ExpandTableColumn(#"Autres colonnes supprimées1", "Transformer le fichier (2)", Table.ColumnNames(#"Transformer le fichier (2)"(#"Exemple de fichier (2)"))),
+				    #"Type modifié" = Table.TransformColumnTypes(#"Colonne de tables développée1",{{"OrderDate", type date}, {"DueDate", type date}, {"ShipDate", type date}, {"OrderQuantity", Int64.Type}, {"UnitPrice", type text}}),
+				    #"Erreurs remplacées" = Table.ReplaceErrorValues(#"Type modifié", {{"ShipDate", null}}),
+				    #"Colonnes supprimées" = Table.RemoveColumns(#"Erreurs remplacées",{"Source.Name"}),
+				    #"Espaces supprimés" = Table.TransformColumns(#"Colonnes supprimées",{{"UnitPrice", Text.Trim, type text}}),
+				    #"Texte nettoyé" = Table.TransformColumns(#"Espaces supprimés",{{"UnitPrice", Text.Clean, type text}}),
+				    #"Espaces supprimés1" = Table.TransformColumns(#"Texte nettoyé",{{"SalesAmount", Text.Trim, type text}}),
+				    #"Texte nettoyé1" = Table.TransformColumns(#"Espaces supprimés1",{{"SalesAmount", Text.Clean, type text}}),
+				    #"Espaces supprimés2" = Table.TransformColumns(#"Texte nettoyé1",{{"TotalProductCost", Text.Trim, type text}}),
+				    #"Espaces supprimés3" = Table.TransformColumns(#"Espaces supprimés2",{{"TotalProductCost", Text.Trim, type text}}),
+				    #"Texte nettoyé2" = Table.TransformColumns(#"Espaces supprimés3",{{"TotalProductCost", Text.Clean, type text}}),
+				    #"Type modifié avec paramètres régionaux" = Table.TransformColumnTypes(#"Texte nettoyé2", {{"UnitPrice", type number}}, "en-US"),
+				    #"Type modifié avec paramètres régionaux1" = Table.TransformColumnTypes(#"Type modifié avec paramètres régionaux", {{"SalesAmount", type number}}, "en-US"),
+				    #"Valeur remplacée" = Table.ReplaceValue(#"Type modifié avec paramètres régionaux1",null,"0",Replacer.ReplaceValue,{"TotalProductCost"}),
+				    #"Lignes filtrées1" = Table.SelectRows(#"Valeur remplacée", each [SalesAmount] <> null and [SalesAmount] <> ""),
+				    #"Lignes filtrées2" = Table.SelectRows(#"Lignes filtrées1", each [ProductKey] <> null and [ProductKey] <> ""),
+				    #"Espaces supprimés4" = Table.TransformColumns(#"Lignes filtrées2",{{"TotalProductCost", Text.Trim, type text}}),
+				    #"Texte nettoyé3" = Table.TransformColumns(#"Espaces supprimés4",{{"TotalProductCost", Text.Clean, type text}}),
+				    #"Valeur remplacée1" = Table.ReplaceValue(#"Texte nettoyé3","NULL","0",Replacer.ReplaceText,{"TotalProductCost"}),
+				    #"Lignes filtrées3" = Table.SelectRows(#"Valeur remplacée1", each [ResellerKey] <> null and [ResellerKey] <> ""),
+				    #"Type modifié1" = Table.TransformColumnTypes(#"Lignes filtrées3",{{"TotalProductCost", type text}}),
+				    #"Personnalisée ajoutée" = Table.AddColumn(#"Type modifié1", "Cost_Final", each try Number.From([TotalProductCost], "en-US") otherwise 0),
+				    #"Colonnes supprimées1" = Table.RemoveColumns(#"Personnalisée ajoutée",{"TotalProductCost"}),
+				    #"Colonnes renommées" = Table.RenameColumns(#"Colonnes supprimées1",{{"Cost_Final", "TotalProductCost"}}),
+				    #"Type modifié2" = Table.TransformColumnTypes(#"Colonnes renommées",{{"TotalProductCost", type number}}),
+				    #"Lignes filtrées4" = Table.SelectRows(#"Type modifié2", each [ShipDate] <> null and [ShipDate] <> "")
+				in
+				    #"Lignes filtrées4"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

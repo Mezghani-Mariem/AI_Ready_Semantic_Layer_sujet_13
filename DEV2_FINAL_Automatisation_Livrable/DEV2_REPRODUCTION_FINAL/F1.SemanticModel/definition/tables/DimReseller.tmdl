@@ -1,0 +1,214 @@
+/// Business-to-business reseller dimension used to group sales by reseller and geography.
+table DimReseller
+	lineageTag: 7f45242a-4c52-4ab2-a6f5-90321e01a099
+
+	column ResellerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 63b85f72-6ffb-42a1-bdfe-d295e601655c
+		summarizeBy: none
+		sourceColumn: ResellerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Business classification of the reseller.
+	column BusinessType
+		dataType: string
+		lineageTag: d3de0d0c-8f96-474f-bde7-208ad7b871e6
+		summarizeBy: none
+		sourceColumn: BusinessType
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Business reseller name used to attribute and rank sales by reseller.
+	column ResellerName
+		dataType: string
+		lineageTag: 146a5226-6cb8-41ba-918f-fb89a23e7f99
+		summarizeBy: none
+		sourceColumn: ResellerName
+
+		annotation SummarizationSetBy = Automatic
+
+	column GeographyKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 4296e3c2-c162-4bf8-9232-d2acf700e2e7
+		summarizeBy: none
+		sourceColumn: GeographyKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ResellerAlternateKey
+		dataType: string
+		lineageTag: 5a369d78-c242-407b-8f30-9e687a61a2f4
+		summarizeBy: none
+		sourceColumn: ResellerAlternateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Phone
+		dataType: string
+		lineageTag: 6834f6f4-3109-4233-a419-781ddbbac7dd
+		summarizeBy: none
+		sourceColumn: Phone
+
+		annotation SummarizationSetBy = Automatic
+
+	column NumberEmployees
+		dataType: int64
+		formatString: 0
+		lineageTag: ea0f6775-373b-43f6-897e-497fe4846ed2
+		summarizeBy: none
+		sourceColumn: NumberEmployees
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderFrequency
+		dataType: string
+		lineageTag: 1a2c54a3-5a06-4970-a560-392efd3e3ef9
+		summarizeBy: none
+		sourceColumn: OrderFrequency
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderMonth
+		dataType: int64
+		formatString: 0
+		lineageTag: d100d1ac-179a-451a-aa87-74fda02ce500
+		summarizeBy: none
+		sourceColumn: OrderMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstOrderYear
+		dataType: int64
+		formatString: 0
+		lineageTag: a809928e-9a59-45ae-91be-44b390cf7dc5
+		summarizeBy: none
+		sourceColumn: FirstOrderYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column LastOrderYear
+		dataType: int64
+		formatString: 0
+		lineageTag: 87fcd03e-0dba-4a6f-bfa4-893f354da600
+		summarizeBy: none
+		sourceColumn: LastOrderYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductLine
+		dataType: string
+		lineageTag: ad6c1949-d5ba-47ca-92e7-038cf27d2488
+		summarizeBy: none
+		sourceColumn: ProductLine
+
+		annotation SummarizationSetBy = Automatic
+
+	column AddressLine1
+		dataType: string
+		lineageTag: d4a13193-5f16-4f6a-b535-084c139b8459
+		summarizeBy: none
+		sourceColumn: AddressLine1
+
+		annotation SummarizationSetBy = Automatic
+
+	column AddressLine2
+		dataType: string
+		lineageTag: 220c5c4b-f633-4fe7-8558-7127bf3fdf40
+		summarizeBy: none
+		sourceColumn: AddressLine2
+
+		annotation SummarizationSetBy = Automatic
+
+	column AnnualSales
+		dataType: string
+		lineageTag: 09246ff2-46cf-473d-8285-3a2dae3e4129
+		summarizeBy: none
+		sourceColumn: AnnualSales
+
+		annotation SummarizationSetBy = Automatic
+
+	column BankName
+		dataType: string
+		lineageTag: 0f7cc38d-ae52-4b81-adf5-b6c34279cb20
+		summarizeBy: none
+		sourceColumn: BankName
+
+		annotation SummarizationSetBy = Automatic
+
+	column MinPaymentType
+		dataType: int64
+		formatString: 0
+		lineageTag: 1003bc60-8819-41ad-bf19-59a92b830207
+		summarizeBy: none
+		sourceColumn: MinPaymentType
+
+		annotation SummarizationSetBy = Automatic
+
+	column MinPaymentAmount
+		dataType: string
+		lineageTag: 2cdf7fd3-abf5-40ac-8684-3f53cc38ee24
+		summarizeBy: none
+		sourceColumn: MinPaymentAmount
+
+		annotation SummarizationSetBy = Automatic
+
+	column AnnualRevenue
+		dataType: string
+		lineageTag: 591b3ca8-f151-4371-9ba1-d9e556666fec
+		summarizeBy: none
+		sourceColumn: AnnualRevenue
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearOpened
+		dataType: int64
+		formatString: 0
+		lineageTag: 7f55da16-780c-4751-8f8b-ecf4b0239b11
+		summarizeBy: none
+		sourceColumn: YearOpened
+
+		annotation SummarizationSetBy = Automatic
+
+	/// City associated with the reseller.
+	column 'DimGeography.City'
+		dataType: string
+		lineageTag: 03756192-2659-4049-a304-7c6323e5837e
+		summarizeBy: none
+		sourceColumn: DimGeography.City
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'DimGeography.StateProvinceName'
+		dataType: string
+		lineageTag: af969784-e21b-407c-8260-f74871ce0b3b
+		summarizeBy: none
+		sourceColumn: DimGeography.StateProvinceName
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Country or region associated with the reseller, in English.
+	column 'DimGeography.EnglishCountryRegionName'
+		dataType: string
+		lineageTag: 1833309b-fedb-40cb-9277-9b82472346e9
+		summarizeBy: none
+		sourceColumn: DimGeography.EnglishCountryRegionName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimReseller = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\RIMEH\Desktop\GI3S1\BI\DimReseller.txt"),[Delimiter="	", Columns=23, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"En-têtes promus" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Type modifié" = Table.TransformColumnTypes(#"En-têtes promus",{{"ResellerKey", Int64.Type}, {"BusinessType", type text}, {"ResellerName", type text}, {"GeographyKey", Int64.Type}, {"ResellerAlternateKey", type text}, {"Phone", type text}, {"NumberEmployees", Int64.Type}, {"OrderFrequency", type text}, {"OrderMonth", Int64.Type}, {"FirstOrderYear", Int64.Type}, {"LastOrderYear", Int64.Type}, {"ProductLine", type text}, {"AddressLine1", type text}, {"AddressLine2", type text}, {"AnnualSales", type text}, {"BankName", type text}, {"MinPaymentType", Int64.Type}, {"MinPaymentAmount", type text}, {"AnnualRevenue", type text}, {"YearOpened", Int64.Type}, {"DimGeography.City", type text}, {"DimGeography.StateProvinceName", type text}, {"DimGeography.EnglishCountryRegionName", type text}})
+				in
+				    #"Type modifié"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,46 @@
+model Model
+	culture: fr-FR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: fr-FR
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup 'Transformer le fichier à partir de FactSales (2)'
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup 'Transformer le fichier à partir de FactSales (2)\Requêtes d''assistance'
+
+	annotation PBI_QueryGroupOrder = 0
+
+/// Erreurs dans les requêtes qui ont été chargées sur 27/10/2026 16:57:22.
+queryGroup 'Erreurs des requêtes – 27/10/2026 16:57:22'
+
+	annotation PBI_QueryGroupOrder = 2
+
+/// Erreurs dans les requêtes qui ont été chargées sur 27/10/2026 17:36:44.
+queryGroup 'Erreurs des requêtes – 27/10/2026 17:36:44'
+
+	annotation PBI_QueryGroupOrder = 3
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["DimProduct","DimReseller","DimSalesTerritory","ResellerSalesTargets","FactSales","Paramètre2","Transformer l'exemple de fichier (2)","Exemple de fichier (2)","Transformer le fichier (2)","Erreurs dans FactSales","Erreurs dans FactSales (2)","_Mesures"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table DateTableTemplate_7d2dbecd-a95a-48f0-acfb-bfbca1e8ff18
+ref table DimProduct
+ref table LocalDateTable_593ca121-086e-44bd-86ff-80c3ce1e5824
+ref table DimReseller
+ref table DimSalesTerritory
+ref table ResellerSalesTargets
+ref table FactSales
+ref table DimDate
+ref table LocalDateTable_ffaba553-84e5-4bc7-88c9-6c82a0fc696e
+ref table _Mesures
+
+ref cultureInfo fr-FR
+

@@ -1,0 +1,63 @@
+/// Sales territory dimension used to analyze sales by region, country and territory group.
+table DimSalesTerritory
+	lineageTag: 9745d737-7f63-4f59-939d-5e4e7458e9d8
+
+	column SalesTerritoryKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 4f4c970d-ca41-4e94-b1be-381d8738aad6
+		summarizeBy: none
+		sourceColumn: SalesTerritoryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesTerritoryAlternateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: eb14afb9-e8f2-459d-a582-e199b12dca9b
+		summarizeBy: none
+		sourceColumn: SalesTerritoryAlternateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Sales territory region used to compare sales performance by region.
+	column SalesTerritoryRegion
+		dataType: string
+		lineageTag: 8eefd9bc-c550-4692-9764-b8d46430409b
+		summarizeBy: none
+		sourceColumn: SalesTerritoryRegion
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Country associated with the sales territory.
+	column SalesTerritoryCountry
+		dataType: string
+		lineageTag: 50e1ae84-d8ec-43ad-86b1-6c6c5f9a8724
+		summarizeBy: none
+		sourceColumn: SalesTerritoryCountry
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Higher-level grouping of related sales territories.
+	column SalesTerritoryGroup
+		dataType: string
+		lineageTag: d9e74b9c-d418-4ed4-ae6a-d951dd10a4d8
+		summarizeBy: none
+		sourceColumn: SalesTerritoryGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimSalesTerritory = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\RIMEH\Desktop\GI3S1\BI\DimSalesTerritory.txt"),[Delimiter="	", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"En-têtes promus" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Type modifié" = Table.TransformColumnTypes(#"En-têtes promus",{{"SalesTerritoryKey", Int64.Type}, {"SalesTerritoryAlternateKey", Int64.Type}, {"SalesTerritoryRegion", type text}, {"SalesTerritoryCountry", type text}, {"SalesTerritoryGroup", type text}})
+				in
+				    #"Type modifié"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

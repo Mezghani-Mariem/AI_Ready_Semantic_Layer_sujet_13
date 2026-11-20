@@ -1,0 +1,351 @@
+[
+  {
+    "table": "FactSales",
+    "kind": "table",
+    "name": "FactSales",
+    "description": "Fact table with one row per imported reseller sales order line, containing dates, product and reseller links, quantities, sales amounts and costs.",
+    "synonyms": []
+  },
+  {
+    "table": "DimProduct",
+    "kind": "table",
+    "name": "DimProduct",
+    "description": "Product dimension used to analyze sales by product, category, subcategory and product attributes.",
+    "synonyms": []
+  },
+  {
+    "table": "DimReseller",
+    "kind": "table",
+    "name": "DimReseller",
+    "description": "Business-to-business reseller dimension used to group sales by reseller and geography.",
+    "synonyms": []
+  },
+  {
+    "table": "DimSalesTerritory",
+    "kind": "table",
+    "name": "DimSalesTerritory",
+    "description": "Sales territory dimension used to analyze sales by region, country and territory group.",
+    "synonyms": []
+  },
+  {
+    "table": "DimDate",
+    "kind": "table",
+    "name": "DimDate",
+    "description": "Calendar dimension used to filter and group sales by calendar date and time period.",
+    "synonyms": []
+  },
+  {
+    "table": "_Mesures",
+    "kind": "table",
+    "name": "_Mesures",
+    "description": "Central location for approved business measures calculated from FactSales.",
+    "synonyms": []
+  },
+  {
+    "table": "ResellerSalesTargets",
+    "kind": "table",
+    "name": "ResellerSalesTargets",
+    "description": "Optional reseller sales targets table; do not treat target amounts as actual sales.",
+    "synonyms": []
+  },
+  {
+    "table": "_Mesures",
+    "kind": "measure",
+    "name": "Total Sales",
+    "description": "Total monetary sales revenue, calculated as SUM(FactSales[SalesAmount]). It is not a count of sales orders or units.",
+    "synonyms": [
+      "sales revenue",
+      "revenue",
+      "turnover",
+      "sales value"
+    ]
+  },
+  {
+    "table": "_Mesures",
+    "kind": "measure",
+    "name": "Total Quantity",
+    "description": "Total number of units ordered, calculated as SUM(FactSales[OrderQuantity]).",
+    "synonyms": [
+      "units sold",
+      "units ordered",
+      "sales volume"
+    ]
+  },
+  {
+    "table": "_Mesures",
+    "kind": "measure",
+    "name": "Total Cost",
+    "description": "Total recorded product cost, calculated as SUM(FactSales[TotalProductCost]). Missing source costs may have been replaced during Power Query cleaning.",
+    "synonyms": [
+      "cost of sales",
+      "product costs"
+    ]
+  },
+  {
+    "table": "_Mesures",
+    "kind": "measure",
+    "name": "Margin",
+    "description": "Sales amount minus recorded total product cost, calculated as [Total Sales] - [Total Cost]. This is a monetary amount, not a percentage.",
+    "synonyms": [
+      "gross profit amount",
+      "sales margin amount"
+    ]
+  },
+  {
+    "table": "_Mesures",
+    "kind": "measure",
+    "name": "Margin %",
+    "description": "Margin divided by total sales, calculated with DIVIDE([Margin], [Total Sales]). A ratio, not a monetary value.",
+    "synonyms": [
+      "margin rate",
+      "gross margin percentage",
+      "profit margin percentage"
+    ]
+  },
+  {
+    "table": "FactSales",
+    "kind": "column",
+    "name": "OrderDate",
+    "description": "Date on which a sales order was placed; use this date for order-based sales trends.",
+    "synonyms": [
+      "sales date",
+      "purchase date",
+      "order date"
+    ]
+  },
+  {
+    "table": "FactSales",
+    "kind": "column",
+    "name": "ShipDate",
+    "description": "Date when the sales order line was shipped; do not confuse with order date.",
+    "synonyms": [
+      "shipping date",
+      "dispatch date"
+    ]
+  },
+  {
+    "table": "FactSales",
+    "kind": "column",
+    "name": "SalesAmount",
+    "description": "Sales monetary amount on this order line; use the Total Sales measure for aggregation.",
+    "synonyms": [
+      "line sales amount",
+      "sales value"
+    ]
+  },
+  {
+    "table": "FactSales",
+    "kind": "column",
+    "name": "OrderQuantity",
+    "description": "Number of product units ordered on this sales line; use Total Quantity for aggregation.",
+    "synonyms": [
+      "units ordered",
+      "quantity sold"
+    ]
+  },
+  {
+    "table": "FactSales",
+    "kind": "column",
+    "name": "TotalProductCost",
+    "description": "Recorded product cost of this sales line, following DEV1 source cleaning; use Total Cost for aggregation.",
+    "synonyms": [
+      "line product cost",
+      "cost amount"
+    ]
+  },
+  {
+    "table": "FactSales",
+    "kind": "column",
+    "name": "UnitPrice",
+    "description": "Unit selling price of the product on this sales line; do not sum this field to calculate revenue.",
+    "synonyms": [
+      "selling price",
+      "price per unit"
+    ]
+  },
+  {
+    "table": "DimProduct",
+    "kind": "column",
+    "name": "EnglishProductName",
+    "description": "Product display name in English used to group and rank sales by product.",
+    "synonyms": [
+      "product name",
+      "item name",
+      "product"
+    ]
+  },
+  {
+    "table": "DimProduct",
+    "kind": "column",
+    "name": "EnglishProductCategoryName",
+    "description": "English name of the highest-level product category.",
+    "synonyms": [
+      "product category",
+      "category",
+      "product family"
+    ]
+  },
+  {
+    "table": "DimProduct",
+    "kind": "column",
+    "name": "EnglishProductSubcategoryName",
+    "description": "English name of the product subcategory.",
+    "synonyms": [
+      "product subcategory",
+      "subcategory"
+    ]
+  },
+  {
+    "table": "DimProduct",
+    "kind": "column",
+    "name": "Color",
+    "description": "Product color attribute for segmenting sales.",
+    "synonyms": [
+      "product color",
+      "colour"
+    ]
+  },
+  {
+    "table": "DimProduct",
+    "kind": "column",
+    "name": "ModelName",
+    "description": "Product model designation.",
+    "synonyms": [
+      "product model",
+      "model"
+    ]
+  },
+  {
+    "table": "DimProduct",
+    "kind": "column",
+    "name": "ListPrice",
+    "description": "Product list price attribute, not the realized sales amount.",
+    "synonyms": [
+      "catalog price",
+      "listed price"
+    ]
+  },
+  {
+    "table": "DimReseller",
+    "kind": "column",
+    "name": "ResellerName",
+    "description": "Business reseller name used to attribute and rank sales by reseller.",
+    "synonyms": [
+      "reseller name",
+      "business customer",
+      "dealer name"
+    ]
+  },
+  {
+    "table": "DimReseller",
+    "kind": "column",
+    "name": "BusinessType",
+    "description": "Business classification of the reseller.",
+    "synonyms": [
+      "reseller type",
+      "business category"
+    ]
+  },
+  {
+    "table": "DimReseller",
+    "kind": "column",
+    "name": "DimGeography.City",
+    "description": "City associated with the reseller.",
+    "synonyms": [
+      "reseller city",
+      "customer city"
+    ]
+  },
+  {
+    "table": "DimReseller",
+    "kind": "column",
+    "name": "DimGeography.EnglishCountryRegionName",
+    "description": "Country or region associated with the reseller, in English.",
+    "synonyms": [
+      "reseller country",
+      "customer country"
+    ]
+  },
+  {
+    "table": "DimSalesTerritory",
+    "kind": "column",
+    "name": "SalesTerritoryRegion",
+    "description": "Sales territory region used to compare sales performance by region.",
+    "synonyms": [
+      "sales region",
+      "region",
+      "territory"
+    ]
+  },
+  {
+    "table": "DimSalesTerritory",
+    "kind": "column",
+    "name": "SalesTerritoryCountry",
+    "description": "Country associated with the sales territory.",
+    "synonyms": [
+      "territory country",
+      "sales country"
+    ]
+  },
+  {
+    "table": "DimSalesTerritory",
+    "kind": "column",
+    "name": "SalesTerritoryGroup",
+    "description": "Higher-level grouping of related sales territories.",
+    "synonyms": [
+      "territory group",
+      "geographic sales group"
+    ]
+  },
+  {
+    "table": "DimDate",
+    "kind": "column",
+    "name": "Date",
+    "description": "Calendar date related to FactSales[OrderDate].",
+    "synonyms": [
+      "calendar date",
+      "sales calendar date"
+    ]
+  },
+  {
+    "table": "DimDate",
+    "kind": "column",
+    "name": "Année",
+    "description": "Calendar year number. The original French field name is retained to preserve existing model references.",
+    "synonyms": [
+      "year",
+      "calendar year",
+      "sales year"
+    ]
+  },
+  {
+    "table": "DimDate",
+    "kind": "column",
+    "name": "Trimestre",
+    "description": "Calendar quarter. The original French field name is retained.",
+    "synonyms": [
+      "quarter",
+      "calendar quarter"
+    ]
+  },
+  {
+    "table": "DimDate",
+    "kind": "column",
+    "name": "Mois",
+    "description": "Calendar month label. The original French field name is retained.",
+    "synonyms": [
+      "month",
+      "calendar month"
+    ]
+  },
+  {
+    "table": "DimDate",
+    "kind": "column",
+    "name": "Année-Mois",
+    "description": "Year and month label for chronological sales reporting.",
+    "synonyms": [
+      "year month",
+      "sales month"
+    ]
+  }
+]

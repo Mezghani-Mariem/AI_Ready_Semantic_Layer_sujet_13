@@ -1,0 +1,99 @@
+/// Calendar dimension used to filter and group sales by calendar date and time period.
+table DimDate
+	lineageTag: d44e252b-4cb3-47ba-93fe-9c417f39892f
+
+	/// Calendar date related to FactSales[OrderDate].
+	column Date
+		formatString: General Date
+		lineageTag: 70be18c7-a592-4e44-9874-8975d019bb83
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		variation Variation
+			isDefault
+			relationship: 5df13599-e93f-4e86-860a-609bd03c5016
+			defaultHierarchy: LocalDateTable_ffaba553-84e5-4bc7-88c9-6c82a0fc696e.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Calendar year number. The original French field name is retained to preserve existing model references.
+	column Année
+		formatString: 0
+		lineageTag: 774ba428-25ae-4634-b6af-e06b7d3aca9f
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Année]
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Calendar quarter. The original French field name is retained.
+	column Trimestre
+		lineageTag: 6216765a-d817-4e8c-aa03-c193c1ec57f1
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Trimestre]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N° Mois'
+		formatString: 0
+		lineageTag: 6e15db2d-b79a-4793-8386-d14699cf1e27
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [N° Mois]
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Calendar month label. The original French field name is retained.
+	column Mois
+		lineageTag: ed296258-c3d7-4e39-826c-c5abffec5f1e
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Mois]
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Year and month label for chronological sales reporting.
+	column Année-Mois
+		lineageTag: ca927f0d-de13-4a30-8905-c671d11d1983
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Année-Mois]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Jour Semaine'
+		lineageTag: 92b97fc1-9682-4ffa-a10b-06c9c384cf85
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Jour Semaine]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N° Jour'
+		formatString: 0
+		lineageTag: c039801c-6205-422b-ab6e-c9f8d7ad5274
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [N° Jour]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimDate = calculated
+		mode: import
+		source =
+				
+				ADDCOLUMNS(
+				    CALENDAR ( DATE ( 2017, 1, 1 ), DATE ( 2023, 12, 31 ) ),
+				    "Année",       YEAR ( [Date] ),
+				    "Trimestre",   "T" & QUARTER ( [Date] ),
+				    "N° Mois",     MONTH ( [Date] ),
+				    "Mois",        FORMAT ( [Date], "MMMM" ),
+				    "Année-Mois",  FORMAT ( [Date], "YYYY-MM" ),
+				    "Jour Semaine",FORMAT ( [Date], "dddd" ),
+				    "N° Jour",     WEEKDAY ( [Date], 2 )
+				)
+
+	annotation PBI_Id = e02424e647df4bddb8500753acb2c750
+

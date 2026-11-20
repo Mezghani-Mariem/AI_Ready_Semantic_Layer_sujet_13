@@ -1,0 +1,36 @@
+relationship 11c92136-f96c-4a1e-ac94-66032b8e78c1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimProduct.StartDate
+	toColumn: LocalDateTable_593ca121-086e-44bd-86ff-80c3ce1e5824.Date
+
+relationship 5df13599-e93f-4e86-860a-609bd03c5016
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimDate.Date
+	toColumn: LocalDateTable_ffaba553-84e5-4bc7-88c9-6c82a0fc696e.Date
+
+relationship 1146df46-fb49-f829-1b3e-7deeacb50578
+	fromColumn: FactSales.OrderDate
+	toColumn: DimDate.Date
+
+relationship 61b15dcf-8db1-39d8-4870-d0fe16abcc32
+	isActive: false
+	fromColumn: FactSales.DueDate
+	toColumn: DimDate.Date
+
+relationship 9dacee70-9386-bb2f-bb3e-2fca2c31efd6
+	isActive: false
+	fromColumn: FactSales.ShipDate
+	toColumn: DimDate.Date
+
+relationship 1fb69066-86c9-739c-b552-0792130fd34c
+	fromColumn: FactSales.ProductKey
+	toColumn: DimProduct.ProductKey
+
+relationship 474d62fa-aebd-4c05-16f9-49bf6d45a354
+	fromColumn: FactSales.ResellerKey
+	toColumn: DimReseller.ResellerKey
+
+relationship d37c1693-03cb-3170-1d83-b8f0ef649b4c
+	fromColumn: FactSales.SalesTerritoryKey
+	toColumn: DimSalesTerritory.SalesTerritoryKey
+

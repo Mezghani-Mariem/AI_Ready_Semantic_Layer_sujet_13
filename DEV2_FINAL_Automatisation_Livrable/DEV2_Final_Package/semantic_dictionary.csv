@@ -1,0 +1,37 @@
+﻿Table,Kind,Name,Description,Synonyms (Q&A candidates)
+FactSales,table,FactSales,"Fact table with one row per imported reseller sales order line, containing dates, product and reseller links, quantities, sales amounts and costs.",
+DimProduct,table,DimProduct,"Product dimension used to analyze sales by product, category, subcategory and product attributes.",
+DimReseller,table,DimReseller,Business-to-business reseller dimension used to group sales by reseller and geography.,
+DimSalesTerritory,table,DimSalesTerritory,"Sales territory dimension used to analyze sales by region, country and territory group.",
+DimDate,table,DimDate,Calendar dimension used to filter and group sales by calendar date and time period.,
+_Mesures,table,_Mesures,Central location for approved business measures calculated from FactSales.,
+ResellerSalesTargets,table,ResellerSalesTargets,Optional reseller sales targets table; do not treat target amounts as actual sales.,
+_Mesures,measure,Total Sales,"Total monetary sales revenue, calculated as SUM(FactSales[SalesAmount]). It is not a count of sales orders or units.",sales revenue; revenue; turnover; sales value
+_Mesures,measure,Total Quantity,"Total number of units ordered, calculated as SUM(FactSales[OrderQuantity]).",units sold; units ordered; sales volume
+_Mesures,measure,Total Cost,"Total recorded product cost, calculated as SUM(FactSales[TotalProductCost]). Missing source costs may have been replaced during Power Query cleaning.",cost of sales; product costs
+_Mesures,measure,Margin,"Sales amount minus recorded total product cost, calculated as [Total Sales] - [Total Cost]. This is a monetary amount, not a percentage.",gross profit amount; sales margin amount
+_Mesures,measure,Margin %,"Margin divided by total sales, calculated with DIVIDE([Margin], [Total Sales]). A ratio, not a monetary value.",margin rate; gross margin percentage; profit margin percentage
+FactSales,column,OrderDate,Date on which a sales order was placed; use this date for order-based sales trends.,sales date; purchase date; order date
+FactSales,column,ShipDate,Date when the sales order line was shipped; do not confuse with order date.,shipping date; dispatch date
+FactSales,column,SalesAmount,Sales monetary amount on this order line; use the Total Sales measure for aggregation.,line sales amount; sales value
+FactSales,column,OrderQuantity,Number of product units ordered on this sales line; use Total Quantity for aggregation.,units ordered; quantity sold
+FactSales,column,TotalProductCost,"Recorded product cost of this sales line, following DEV1 source cleaning; use Total Cost for aggregation.",line product cost; cost amount
+FactSales,column,UnitPrice,Unit selling price of the product on this sales line; do not sum this field to calculate revenue.,selling price; price per unit
+DimProduct,column,EnglishProductName,Product display name in English used to group and rank sales by product.,product name; item name; product
+DimProduct,column,EnglishProductCategoryName,English name of the highest-level product category.,product category; category; product family
+DimProduct,column,EnglishProductSubcategoryName,English name of the product subcategory.,product subcategory; subcategory
+DimProduct,column,Color,Product color attribute for segmenting sales.,product color; colour
+DimProduct,column,ModelName,Product model designation.,product model; model
+DimProduct,column,ListPrice,"Product list price attribute, not the realized sales amount.",catalog price; listed price
+DimReseller,column,ResellerName,Business reseller name used to attribute and rank sales by reseller.,reseller name; business customer; dealer name
+DimReseller,column,BusinessType,Business classification of the reseller.,reseller type; business category
+DimReseller,column,DimGeography.City,City associated with the reseller.,reseller city; customer city
+DimReseller,column,DimGeography.EnglishCountryRegionName,"Country or region associated with the reseller, in English.",reseller country; customer country
+DimSalesTerritory,column,SalesTerritoryRegion,Sales territory region used to compare sales performance by region.,sales region; region; territory
+DimSalesTerritory,column,SalesTerritoryCountry,Country associated with the sales territory.,territory country; sales country
+DimSalesTerritory,column,SalesTerritoryGroup,Higher-level grouping of related sales territories.,territory group; geographic sales group
+DimDate,column,Date,Calendar date related to FactSales[OrderDate].,calendar date; sales calendar date
+DimDate,column,Année,Calendar year number. The original French field name is retained to preserve existing model references.,year; calendar year; sales year
+DimDate,column,Trimestre,Calendar quarter. The original French field name is retained.,quarter; calendar quarter
+DimDate,column,Mois,Calendar month label. The original French field name is retained.,month; calendar month
+DimDate,column,Année-Mois,Year and month label for chronological sales reporting.,year month; sales month

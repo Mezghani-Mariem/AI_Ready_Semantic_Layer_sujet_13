@@ -1,0 +1,132 @@
+/// Optional reseller sales targets table; do not treat target amounts as actual sales.
+table ResellerSalesTargets
+	lineageTag: 23a0617d-d273-49a7-a8db-321be6f31df2
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: c311301d-8e73-4d17-bef4-b360143e3e62
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column EmployeeID
+		dataType: int64
+		formatString: 0
+		lineageTag: 30893979-ab42-41ff-bd6f-25e838c96d00
+		summarizeBy: count
+		sourceColumn: EmployeeID
+
+		annotation SummarizationSetBy = Automatic
+
+	column M01
+		dataType: string
+		lineageTag: 5ca3ccc4-b84f-4437-bb0e-b60c1040dea4
+		summarizeBy: none
+		sourceColumn: M01
+
+		annotation SummarizationSetBy = Automatic
+
+	column M02
+		dataType: string
+		lineageTag: d1bc83a0-389f-464f-846b-9dac1fd30a6e
+		summarizeBy: none
+		sourceColumn: M02
+
+		annotation SummarizationSetBy = Automatic
+
+	column M03
+		dataType: string
+		lineageTag: 26890545-02c9-4f29-a7f1-2624c567b3d7
+		summarizeBy: none
+		sourceColumn: M03
+
+		annotation SummarizationSetBy = Automatic
+
+	column M04
+		dataType: string
+		lineageTag: 16d81f94-b32e-4a79-af8d-9f8ec6259f13
+		summarizeBy: none
+		sourceColumn: M04
+
+		annotation SummarizationSetBy = Automatic
+
+	column M05
+		dataType: string
+		lineageTag: 8a57f0a2-e629-4327-9c95-39dc7f24c0a2
+		summarizeBy: none
+		sourceColumn: M05
+
+		annotation SummarizationSetBy = Automatic
+
+	column M06
+		dataType: string
+		lineageTag: 11ccf5ce-8f7b-4ef1-8c01-0a5a48dc49df
+		summarizeBy: none
+		sourceColumn: M06
+
+		annotation SummarizationSetBy = Automatic
+
+	column M07
+		dataType: string
+		lineageTag: a247fbe9-9e59-48b6-b19a-4c8aece2477c
+		summarizeBy: none
+		sourceColumn: M07
+
+		annotation SummarizationSetBy = Automatic
+
+	column M08
+		dataType: string
+		lineageTag: bbef21d3-b68e-4fc3-9e44-e3ae344fa229
+		summarizeBy: none
+		sourceColumn: M08
+
+		annotation SummarizationSetBy = Automatic
+
+	column M09
+		dataType: string
+		lineageTag: 9fb0bf5e-6e8c-4b72-b95d-4c9ea6e931c2
+		summarizeBy: none
+		sourceColumn: M09
+
+		annotation SummarizationSetBy = Automatic
+
+	column M10
+		dataType: string
+		lineageTag: ee92b2e9-e7fc-4009-b6ec-abb99ad0d429
+		summarizeBy: none
+		sourceColumn: M10
+
+		annotation SummarizationSetBy = Automatic
+
+	column M11
+		dataType: string
+		lineageTag: 41120ecc-41b8-415a-be1a-01dcd19bbfde
+		summarizeBy: none
+		sourceColumn: M11
+
+		annotation SummarizationSetBy = Automatic
+
+	column M12
+		dataType: string
+		lineageTag: 05cee815-5059-40d5-93ae-9e13dba41992
+		summarizeBy: none
+		sourceColumn: M12
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ResellerSalesTargets = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\RIMEH\Desktop\GI3S1\BI\ResellerSalesTargets.csv"),[Delimiter=",", Columns=14, Encoding=1200, QuoteStyle=QuoteStyle.None]),
+				    #"En-têtes promus" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Type modifié" = Table.TransformColumnTypes(#"En-têtes promus",{{"Year", Int64.Type}, {"EmployeeID", Int64.Type}, {"M01", type text}, {"M02", type text}, {"M03", type text}, {"M04", type text}, {"M05", type text}, {"M06", type text}, {"M07", type text}, {"M08", type text}, {"M09", type text}, {"M10", type text}, {"M11", type text}, {"M12", type text}})
+				in
+				    #"Type modifié"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

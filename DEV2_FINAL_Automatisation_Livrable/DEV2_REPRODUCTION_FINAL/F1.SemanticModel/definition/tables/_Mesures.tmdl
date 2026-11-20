@@ -1,0 +1,51 @@
+/// Central location for approved business measures calculated from FactSales.
+table _Mesures
+	lineageTag: a469c2c2-f3a0-48d2-87a3-9fef8b944d06
+
+	/// Total monetary sales revenue, calculated as SUM(FactSales[SalesAmount]). It is not a count of sales orders or units.
+	measure 'Total Sales' = SUM ( FactSales[SalesAmount] )
+		lineageTag: 1dd1f9a4-3689-4a35-9efb-cf34263830b0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Total number of units ordered, calculated as SUM(FactSales[OrderQuantity]).
+	measure 'Total Quantity' = SUM ( FactSales[OrderQuantity] )
+		formatString: 0
+		lineageTag: 62c9bff0-a029-445d-b99f-aac9b1aa0d71
+
+	/// Total recorded product cost, calculated as SUM(FactSales[TotalProductCost]). Missing source costs may have been replaced during Power Query cleaning.
+	measure 'Total Cost' = SUM ( FactSales[TotalProductCost] )
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: bc9b2754-b47b-40e8-8fdb-fd220b9a14af
+
+	/// Sales amount minus recorded total product cost, calculated as [Total Sales] - [Total Cost]. This is a monetary amount, not a percentage.
+	measure Margin = [Total Sales] - [Total Cost]
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: a152bbc7-caf4-4aaa-8445-d804e94d4859
+
+	/// Margin divided by total sales, calculated with DIVIDE([Margin], [Total Sales]). A ratio, not a monetary value.
+	measure 'Margin %' = DIVIDE ( [Margin], [Total Sales] )
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 087dc677-9dfb-4f1c-b947-36b34b5594a9
+
+	column 'Colonne 1'
+		dataType: string
+		lineageTag: 329ff4c1-7a7d-4d8b-b6c9-af1a5cf4edc5
+		summarizeBy: none
+		sourceColumn: Colonne 1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Mesures = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Colonne 1" = _t]),
+				    #"Type modifié" = Table.TransformColumnTypes(Source,{{"Colonne 1", type text}})
+				in
+				    #"Type modifié"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,95 @@
+expression Paramètre2 = #"Exemple de fichier (2)" meta [IsParameterQuery=true, BinaryIdentifier=#"Exemple de fichier (2)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 8b6e40b6-f6eb-44ec-ac5b-867f2994c972
+	queryGroup: 'Transformer le fichier à partir de FactSales (2)\Requêtes d''assistance'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transformer l''exemple de fichier (2)' =
+		let
+		    Source = Excel.Workbook(Paramètre2, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"En-têtes promus" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"En-têtes promus"
+	lineageTag: 2793272e-b754-475e-bde4-aaa958faf0b9
+	queryGroup: 'Transformer le fichier à partir de FactSales (2)'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Exemple de fichier (2)' =
+		let
+		    Source = Folder.Files("C:\Users\RIMEH\Desktop\GI3S1\BI\FactSales"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: f7734951-89d6-4411-8d99-f611e2e57cdd
+	queryGroup: 'Transformer le fichier à partir de FactSales (2)\Requêtes d''assistance'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transformer le fichier (2)' =
+		let
+		    Source = (Paramètre2 as binary) => let
+		    Source = Excel.Workbook(Paramètre2, null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"En-têtes promus" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"En-têtes promus"
+		in
+		    Source
+	mAttributes: [ FunctionQueryBinding = "{""exemplarFormulaName"":""Transformer l\u0027exemple de fichier (2)""}" ]
+	lineageTag: 17a175bd-8eee-486d-b075-0483e8f6f01c
+	queryGroup: 'Transformer le fichier à partir de FactSales (2)\Requêtes d''assistance'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Function
+
+expression 'Erreurs dans FactSales' =
+		let
+		Source = FactSales,
+		  #"Incompatibilités de types détectées" = let
+		    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Source, Table.ColumnsOfType(Source, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),
+		    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),
+		    fieldNames = Record.FieldNames(recordTypeFields),
+		    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),
+		    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = "Le type de la valeur ne correspond pas à celui de la colonne.", Detail = v], fieldTypes{i}})
+		in
+		    Table.TransformColumns(Source, pairs),
+		  #"Index ajouté" = Table.AddIndexColumn(#"Incompatibilités de types détectées", "Numéro de ligne" ,1),
+		  #"Conserver les erreurs" = Table.SelectRowsWithErrors(#"Index ajouté", {"Source.Name", "SalesOrderNumber", "SalesOrderLineNumber", "OrderDate", "DueDate", "ShipDate", "ProductKey", "ResellerKey", "PromotionKey", "EmployeeKey", "SalesTerritoryKey", "OrderQuantity", "UnitPrice", "TotalProductCost", "SalesAmount"}),
+		  #"Colonnes permutées" = Table.ReorderColumns(#"Conserver les erreurs", {"Numéro de ligne", "Source.Name", "SalesOrderNumber", "SalesOrderLineNumber", "OrderDate", "DueDate", "ShipDate", "ProductKey", "ResellerKey", "PromotionKey", "EmployeeKey", "SalesTerritoryKey", "OrderQuantity", "UnitPrice", "TotalProductCost", "SalesAmount"})
+		in
+		  #"Colonnes permutées"
+	lineageTag: ed1f2330-97c3-4ef3-8692-0011b4b65281
+	queryGroup: 'Erreurs des requêtes – 27/10/2026 16:57:22'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Erreurs dans FactSales (2)' =
+		let
+		Source = FactSales,
+		  #"Incompatibilités de types détectées" = let
+		    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Source, Table.ColumnsOfType(Source, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),
+		    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),
+		    fieldNames = Record.FieldNames(recordTypeFields),
+		    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),
+		    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = "Le type de la valeur ne correspond pas à celui de la colonne.", Detail = v], fieldTypes{i}})
+		in
+		    Table.TransformColumns(Source, pairs),
+		  #"Index ajouté" = Table.AddIndexColumn(#"Incompatibilités de types détectées", "Numéro de ligne" ,1),
+		  #"Conserver les erreurs" = Table.SelectRowsWithErrors(#"Index ajouté", {"Source.Name", "SalesOrderNumber", "SalesOrderLineNumber", "OrderDate", "DueDate", "ShipDate", "ProductKey", "ResellerKey", "PromotionKey", "EmployeeKey", "SalesTerritoryKey", "OrderQuantity", "UnitPrice", "TotalProductCost", "SalesAmount"}),
+		  #"Colonnes permutées" = Table.ReorderColumns(#"Conserver les erreurs", {"Numéro de ligne", "Source.Name", "SalesOrderNumber", "SalesOrderLineNumber", "OrderDate", "DueDate", "ShipDate", "ProductKey", "ResellerKey", "PromotionKey", "EmployeeKey", "SalesTerritoryKey", "OrderQuantity", "UnitPrice", "TotalProductCost", "SalesAmount"})
+		in
+		  #"Colonnes permutées"
+	lineageTag: 7b35558f-7bdf-4a34-8fd6-c812275f59de
+	queryGroup: 'Erreurs des requêtes – 27/10/2026 17:36:44'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

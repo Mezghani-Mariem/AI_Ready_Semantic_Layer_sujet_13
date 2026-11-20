@@ -1,0 +1,10 @@
+{
+  "result": "PASS",
+  "source": "C:\\Users\\Lenovo\\Desktop\\DEV1_BASELINE_TEST",
+  "output": "C:\\Users\\Lenovo\\Desktop\\DEV2_REPRODUCTION_FINAL",
+  "description_targets": 36,
+  "synonym_targets": 21,
+  "linguistic_schema": "fr-FR.tmdl (internal en-US)",
+  "source_modified": false,
+  "limitations": "Power BI UI and data refresh must be validated separately; YAML is a saved export, not auto-imported."
+}
